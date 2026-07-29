@@ -1,0 +1,30 @@
+name: SwiftUIBackportKitExample
+options:
+  bundleIdPrefix: com.emadbeyrami
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  SwiftUIBackportKit:
+    path: ..
+targets:
+  SwiftUIBackportKitExample:
+    type: application
+    platform: iOS
+    sources:
+      - SwiftUIBackportKitExample
+    dependencies:
+      - package: SwiftUIBackportKit
+    scheme: {}
+    info:
+      path: SwiftUIBackportKitExample/Info.plist
+      properties:
+        UILaunchScreen: {}
+        CFBundleDisplayName: BackportKit Examples
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.emadbeyrami.SwiftUIBackportKitExample
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""

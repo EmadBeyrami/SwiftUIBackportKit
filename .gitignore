@@ -1,4 +1,9 @@
 .build/
 .swiftpm/
-*.xcodeproj
 .DS_Store
+
+# Xcode
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint

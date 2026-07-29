@@ -25,6 +25,7 @@ helpers you copy-paste into every project:
 - [Requirements](#requirements)
 - [Project layout](#project-layout)
 - [Tests](#tests)
+- [Example app](#example-app)
 
 ## The problem
 
@@ -459,6 +460,9 @@ Sources/SwiftUIBackportKit/
 Tests/SwiftUIBackportKitTests/
   PlatformValueTests.swift         — logic tests for OS.isAtLeast / platformValue
   CompileSmokeTests.swift          — signature/composition tests for every public API
+Example/
+  SwiftUIBackportKitExample.xcodeproj — depends on this package via a local path
+  SwiftUIBackportKitExample/Demos/     — one SwiftUI view per API, see Example/README.md
 ```
 
 ## Tests
@@ -466,6 +470,13 @@ Tests/SwiftUIBackportKitTests/
 ```
 swift test
 ```
+
+## Example app
+
+`Example/` is a runnable iOS app that depends on this package locally and has
+one screen per API — see [`Example/README.md`](Example/README.md) for what's
+in it. Open `Example/SwiftUIBackportKitExample.xcodeproj` in Xcode and run it
+on any iOS 15+ simulator or device.
 
 If your command-line toolchain doesn't include XCTest (only Command Line
 Tools installed, no Xcode), point at an installed Xcode for just this
