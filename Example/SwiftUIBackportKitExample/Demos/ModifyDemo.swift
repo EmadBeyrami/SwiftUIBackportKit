@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUIBackportKit
 
 /// `.modify { }` lets a version check live *inside* a modifier chain instead
-/// of breaking it. Here `.symbolEffect` — an iOS 17 API — only applies on
+/// of breaking it. Here `.symbolEffect` - an iOS 17 API - only applies on
 /// iOS 17+; earlier versions just get the image back unchanged.
 struct ModifyDemo: View {
     @State private var isOn = false
@@ -23,7 +23,7 @@ struct ModifyDemo: View {
             Toggle("Favorite", isOn: $isOn)
                 .padding(.horizontal, 40)
 
-            Text("On iOS 17+, toggling this makes the star bounce via .symbolEffect. On earlier versions, .modify returns the image unchanged — no crash, no missing symbol.")
+            Text("On iOS 17+, toggling this makes the star bounce via .symbolEffect. On earlier versions, .modify returns the image unchanged - no crash, no missing symbol.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

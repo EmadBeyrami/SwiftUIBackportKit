@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUIBackportKit
 
 /// `.backport.onChange` gives you the iOS 17 two-value `onChange` closure
-/// everywhere back to this package's iOS 15 minimum — on older versions it
+/// everywhere back to this package's iOS 15 minimum - on older versions it
 /// synthesizes `oldValue` for you.
 struct OnChangeDemo: View {
     @State private var query = ""

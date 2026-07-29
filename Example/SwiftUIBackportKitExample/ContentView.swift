@@ -5,15 +5,15 @@ struct ContentView: View {
         NavigationView {
             List {
                 Section("Core") {
-                    NavigationLink("modify { } — branch inside a chain") {
+                    NavigationLink("modify { } - branch inside a chain") {
                         ModifyDemo()
                     }
-                    NavigationLink("platformValue — version-based constants") {
+                    NavigationLink("platformValue - version-based constants") {
                         PlatformValueDemo()
                     }
                 }
                 Section("Backport") {
-                    NavigationLink("backport.onChange — two-value onChange") {
+                    NavigationLink("backport.onChange - two-value onChange") {
                         OnChangeDemo()
                     }
                     NavigationLink("backport scroll behavior") {

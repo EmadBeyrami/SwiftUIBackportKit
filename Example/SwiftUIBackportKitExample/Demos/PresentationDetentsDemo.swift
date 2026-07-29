@@ -19,7 +19,7 @@ struct PresentationDetentsDemo: View {
             VStack(spacing: 16) {
                 Text("Drag the grabber")
                     .font(.headline)
-                Text("On iOS 16.4+, this sheet supports .medium, .large, and a custom .fraction detent. On earlier versions it just renders at the default size — no crash.")
+                Text("On iOS 16.4+, this sheet supports .medium, .large, and a custom .fraction detent. On earlier versions it just renders at the default size - no crash.")
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
                     .padding()

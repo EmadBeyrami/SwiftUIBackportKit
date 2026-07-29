@@ -21,7 +21,7 @@ public extension View {
     ///         }
     ///         .padding()
     ///
-    /// The `else` branch must still return `$0` (or an equivalent view) —
+    /// The `else` branch must still return `$0` (or an equivalent view) -
     /// dropping it silently removes the view on older OS versions.
     @ViewBuilder
     func modify<Result: View>(@ViewBuilder _ transform: (Self) -> Result) -> some View {

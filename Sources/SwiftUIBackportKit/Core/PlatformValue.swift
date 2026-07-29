@@ -1,6 +1,6 @@
 import Foundation
 
-/// A minimal OS version, comparable at runtime — unlike `#available`, which
+/// A minimal OS version, comparable at runtime - unlike `#available`, which
 /// only accepts a version literal baked in at compile time.
 public struct OSVersion {
     let systemVersion: OperatingSystemVersion
@@ -17,7 +17,7 @@ public enum OS {
     /// for picking between two already-available *values* (a `CGFloat`, a
     /// `Color`, a case of an enum that exists on every deployment target you
     /// support). It does **not** teach the compiler anything about API
-    /// availability — if the branches reference a type or method that only
+    /// availability - if the branches reference a type or method that only
     /// exists on newer OS versions, you still need `#available` (see
     /// `View.modify` and `Backport`) so the compiler can verify it.
     public static func isAtLeast(_ version: OSVersion) -> Bool {

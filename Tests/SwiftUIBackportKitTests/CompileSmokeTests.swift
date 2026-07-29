@@ -2,7 +2,7 @@ import XCTest
 import SwiftUI
 @testable import SwiftUIBackportKit
 
-/// These don't render or assert on pixels — SwiftUI view trees aren't easily
+/// These don't render or assert on pixels - SwiftUI view trees aren't easily
 /// inspectable without a hosting environment. They exist to lock down that
 /// every public API in this package actually type-checks and composes the
 /// way the README says it does; a signature change that breaks a call site

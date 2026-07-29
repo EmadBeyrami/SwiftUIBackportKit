@@ -3,7 +3,7 @@ import SwiftUIBackportKit
 
 /// Both of these are iOS 17/16.4 APIs with no parameter that references a
 /// type unavailable pre-availability, so the backport is a plain no-op
-/// fallback — the scroll view just keeps its default behavior on older OS
+/// fallback - the scroll view just keeps its default behavior on older OS
 /// versions.
 struct ScrollBehaviorDemo: View {
     var body: some View {

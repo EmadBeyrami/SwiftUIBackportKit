@@ -25,9 +25,9 @@ xcodegen generate
 |---|---|
 | `ModifyDemo` | `.modify { }` gating an iOS 17 `.symbolEffect` inside a chain |
 | `PlatformValueDemo` | `platformValue(_:ifAtLeast:else:)` picking a corner radius by OS version |
-| `OnChangeDemo` | `.backport.onChange(of:_:)` — two-value onChange back to iOS 15 |
+| `OnChangeDemo` | `.backport.onChange(of:_:)` - two-value onChange back to iOS 15 |
 | `ScrollBehaviorDemo` | `.backport.scrollBounceBehaviorBasedOnSize()` / `.backport.scrollClipDisabled()` |
 | `PresentationDetentsDemo` | `.backport.presentationDetents(_:)` on a sheet |
 
-Every demo runs unmodified across iOS versions — the whole point of the
+Every demo runs unmodified across iOS versions - the whole point of the
 package is that you don't write two versions of the view.

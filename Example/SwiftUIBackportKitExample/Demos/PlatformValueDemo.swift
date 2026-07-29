@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftUIBackportKit
 
-/// `platformValue` and `OS.isAtLeast` are for picking between plain values —
+/// `platformValue` and `OS.isAtLeast` are for picking between plain values -
 /// no `#available` needed because neither branch references an unavailable
 /// type or API.
 struct PlatformValueDemo: View {
