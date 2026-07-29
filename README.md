@@ -1,7 +1,7 @@
 # SwiftUIBackportKit
 
 A tiny, dependency-free Swift Package for supporting multiple iOS versions in
-SwiftUI — without breaking modifier chains, duplicating whole views, or
+SwiftUI - without breaking modifier chains, duplicating whole views, or
 scattering `if #available` checks across a codebase.
 
 It implements the patterns from two articles as a real, tested API instead of
