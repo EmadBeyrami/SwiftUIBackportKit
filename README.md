@@ -1,5 +1,10 @@
 # SwiftUIBackportKit
 
+[![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%2015%2B-blue.svg)](#requirements)
+[![Swift](https://img.shields.io/badge/swift-5.9%2B-orange.svg)](#requirements)
+[![License](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
+
 A tiny, dependency-free Swift Package for supporting multiple iOS versions in
 SwiftUI - without breaking modifier chains, duplicating whole views, or
 scattering `if #available` checks across a codebase.
@@ -10,22 +15,32 @@ helpers you copy-paste into every project:
 - [Supporting Multiple iOS Versions in SwiftUI Without Turning Your Views Into a Mess](https://dev.to/emadbeyrami/supporting-multiple-ios-versions-in-swiftui-without-turning-your-views-into-a-mess-52oc)
 - [Handling different iOS versions in a View body](https://swiftui-garden.com/Articles/Handling-different-iOS-versions-in-a-View-body)
 
+## Features
+
+- **`.modify { }`** - branch on `#available` inside a modifier chain instead of breaking it
+- **`.backport`** - a namespace for reusable, version-gated shims that read like the real API
+- **`platformValue(_:ifAtLeast:else:)`** - pick a plain value by OS version without a new function per threshold
+- Four backports included out of the box: `onChange`, `scrollBounceBehaviorBasedOnSize`, `scrollClipDisabled`, `presentationDetents`
+- Zero dependencies, fully unit tested, with a runnable example app
+
 ## Table of contents
 
 - [The problem](#the-problem)
+- [Requirements](#requirements)
 - [Install](#install)
 - [Quick start](#quick-start)
 - [API](#api)
-  - [`.modify { }`](#1-modify----keep-the-chain-intact)
-  - [`.backport`](#2-backport--a-namespace-for-version-gated-apis)
-  - [`platformValue(_:ifAtLeast:else:)`](#3-platformvalue_ifatleastelse--for-plain-values)
+  - [`.modify { }`](#1-modify-----keep-the-chain-intact)
+  - [`.backport`](#2-backport---a-namespace-for-version-gated-apis)
+  - [`platformValue(_:ifAtLeast:else:)`](#3-platformvalue_ifatleastelse---for-plain-values)
 - [Which one do I use?](#which-one-do-i-use)
 - [Writing your own backport](#writing-your-own-backport)
 - [Full example](#full-example)
-- [Requirements](#requirements)
 - [Project layout](#project-layout)
 - [Tests](#tests)
 - [Example app](#example-app)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## The problem
 
@@ -74,9 +89,26 @@ or restructuring the whole view around the check, which gets worse every
 time a new OS version adds one more thing that needs gating. SwiftUIBackportKit
 exists so neither of those has to happen.
 
+## Requirements
+
+- iOS 15.0+
+- Swift 5.9+
+- Xcode 15+
+
+macOS 12+ is also declared in `Package.swift` - not because this is a
+macOS-focused package, but so the package (and its test suite) builds and
+runs via plain `swift build` / `swift test` on a Mac without needing an iOS
+simulator. Every backport checks both platforms' actual minimum OS version
+(e.g. `#available(iOS 17, macOS 14, *)`), so behavior on each platform
+matches that platform's real API availability.
+
 ## Install
 
-**Xcode:** File → Add Package Dependencies… and enter the repository URL.
+**Xcode:** File → Add Package Dependencies… and enter:
+
+```
+https://github.com/EmadBeyrami/SwiftUIBackportKit.git
+```
 
 **Package.swift:**
 
@@ -435,15 +467,6 @@ struct SettingsRow: View {
 }
 ```
 
-## Requirements
-
-iOS 15+. macOS 12+ is also declared in `Package.swift` - not because this is
-a macOS-focused package, but so the package (and its test suite) builds and
-runs via plain `swift build` / `swift test` on a Mac without needing an iOS
-simulator. Every backport checks both platforms' actual minimum OS version
-(e.g. `#available(iOS 17, macOS 14, *)`), so behavior on each platform
-matches that platform's real API availability.
-
 ## Project layout
 
 ```
@@ -471,13 +494,6 @@ Example/
 swift test
 ```
 
-## Example app
-
-`Example/` is a runnable iOS app that depends on this package locally and has
-one screen per API - see [`Example/README.md`](Example/README.md) for what's
-in it. Open `Example/SwiftUIBackportKitExample.xcodeproj` in Xcode and run it
-on any iOS 15+ simulator or device.
-
 If your command-line toolchain doesn't include XCTest (only Command Line
 Tools installed, no Xcode), point at an installed Xcode for just this
 command:
@@ -485,3 +501,21 @@ command:
 ```
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test
 ```
+
+## Example app
+
+`Example/` is a runnable iOS app that depends on this package locally and has
+one screen per API - see [`Example/README.md`](Example/README.md) for what's
+in it. Open `Example/SwiftUIBackportKitExample.xcodeproj` in Xcode and run it
+on any iOS 15+ simulator or device.
+
+## Contributing
+
+Issues and pull requests are welcome. If you're adding a new backport, follow
+the recipe in [Writing your own backport](#writing-your-own-backport) and
+include a compile-smoke test alongside it.
+
+## License
+
+SwiftUIBackportKit is available under the MIT license. See
+[LICENSE](LICENSE) for details.
