@@ -1,7 +1,7 @@
 # SwiftUIBackportKit
 
 A tiny, dependency-free Swift Package for supporting multiple iOS versions in
-SwiftUI — without breaking modifier chains, duplicating whole views, or
+SwiftUI - without breaking modifier chains, duplicating whole views, or
 scattering `if #available` checks across a codebase.
 
 It implements the patterns from two articles as a real, tested API instead of
@@ -29,7 +29,7 @@ helpers you copy-paste into every project:
 
 ## The problem
 
-A SwiftUI modifier chain is one continuous expression — every modifier
+A SwiftUI modifier chain is one continuous expression - every modifier
 returns a new view that becomes the input to the next one:
 
 ```swift
@@ -39,7 +39,7 @@ Text("Hi")
     .padding()
 ```
 
-Dropping an `if #available` into the middle of that breaks it — an `if`
+Dropping an `if #available` into the middle of that breaks it - an `if`
 statement isn't a modifier and can't be chained:
 
 ```swift
@@ -125,7 +125,7 @@ struct RowView: View {
 
 ## API
 
-### 1. `.modify { }` — keep the chain intact
+### 1. `.modify { }` - keep the chain intact
 
 The core building block every other API in this package is built on. It
 wraps `self` in a `@ViewBuilder` closure, so the branch happens *inside* the
@@ -144,7 +144,7 @@ Text("Hi")
     .padding()
 ```
 
-It composes anywhere a modifier would — mid-chain, nested, repeated:
+It composes anywhere a modifier would - mid-chain, nested, repeated:
 
 ```swift
 VStack {
@@ -183,7 +183,7 @@ Image(systemName: "star")
 ```
 
 **The one rule:** every branch must return a view, including `else`.
-Omitting `else` — or forgetting to return `$0` — silently removes the view on
+Omitting `else` - or forgetting to return `$0` - silently removes the view on
 whichever OS versions take that branch:
 
 ```swift
@@ -195,10 +195,10 @@ whichever OS versions take that branch:
 }
 ```
 
-### 2. `.backport` — a namespace for version-gated APIs
+### 2. `.backport` - a namespace for version-gated APIs
 
 `.modify` is great for a one-off check. Once the same `#available` branch
-starts showing up in more than one place, promote it into `.backport` — a
+starts showing up in more than one place, promote it into `.backport` - a
 namespace that reads exactly like the real SwiftUI API and hides the
 branching entirely:
 
@@ -215,7 +215,7 @@ List(items) { item in
 ```
 
 Every member of `Backport` is responsible for its own availability check and
-its own pre-availability fallback — call sites never think about `#available`
+its own pre-availability fallback - call sites never think about `#available`
 at all.
 
 #### Built in
@@ -223,16 +223,16 @@ at all.
 | API | Backports | Pre-availability behavior |
 |---|---|---|
 | `.backport.onChange(of:initial:_:)` | iOS 17's two-value `onChange` | Synthesizes `(old, new)` on top of the single-value `onChange` that's always existed |
-| `.backport.scrollBounceBehaviorBasedOnSize(axes:)` | iOS 16.4's `scrollBounceBehavior(_:axes:)` | No-op — keeps the default bounce behavior |
-| `.backport.scrollClipDisabled(_:)` | iOS 17's `scrollClipDisabled(_:)` | No-op — content stays clipped, the universal pre-17 default |
-| `.backport.presentationDetents(_:)` | iOS 16.4's `presentationDetents(_:)` | No-op — sheet renders at its default size |
+| `.backport.scrollBounceBehaviorBasedOnSize(axes:)` | iOS 16.4's `scrollBounceBehavior(_:axes:)` | No-op - keeps the default bounce behavior |
+| `.backport.scrollClipDisabled(_:)` | iOS 17's `scrollClipDisabled(_:)` | No-op - content stays clipped, the universal pre-17 default |
+| `.backport.presentationDetents(_:)` | iOS 16.4's `presentationDetents(_:)` | No-op - sheet renders at its default size |
 
-**`onChange` — the one every app hits.** Before iOS 17, `onChange` only
+**`onChange` - the one every app hits.** Before iOS 17, `onChange` only
 handed you the new value; getting the old one meant hand-rolling your own
 `@State` cache at every call site:
 
 ```swift
-// Before — repeated at every call site that needs the old value.
+// Before - repeated at every call site that needs the old value.
 struct SearchView: View {
     @State private var query = ""
     @State private var previousQuery = ""
@@ -263,9 +263,9 @@ struct SearchView: View {
 
 On iOS 17+ this forwards straight to the system API (including `initial:`).
 Below that, it caches the previous value internally and calls your closure
-with `(old, new)` — you never see the difference.
+with `(old, new)` - you never see the difference.
 
-**`presentationDetents` — bridging a type that doesn't exist pre-16.4.**
+**`presentationDetents` - bridging a type that doesn't exist pre-16.4.**
 `PresentationDetent` itself isn't available before iOS 16.4, so the backport
 defines its own `PresentationDetentCompat` enum that mirrors the real cases
 without ever naming the unavailable type outside an `#available`-guarded
@@ -278,10 +278,10 @@ context:
 }
 ```
 
-Pre-16.4, the sheet just renders at its default size — there's no equivalent
+Pre-16.4, the sheet just renders at its default size - there's no equivalent
 API to fall back to, so this is a no-op rather than an approximation.
 
-**`scrollBounceBehaviorBasedOnSize` / `scrollClipDisabled` — the common
+**`scrollBounceBehaviorBasedOnSize` / `scrollClipDisabled` - the common
 case.** No new type appears in either signature, so the shim is a plain
 `#available` branch with a no-op fallback:
 
@@ -293,9 +293,9 @@ ScrollView {
 .backport.scrollClipDisabled()
 ```
 
-### 3. `platformValue(_:ifAtLeast:else:)` — for plain values
+### 3. `platformValue(_:ifAtLeast:else:)` - for plain values
 
-Sometimes the only thing that changes between OS versions is a constant — a
+Sometimes the only thing that changes between OS versions is a constant - a
 corner radius, a font size, a spacing value. `#available` is overkill here,
 and the naive fix (a hardcoded function per version pair, e.g.
 `func value(new: T, old: T) -> T { if #available(iOS 26, *) { new } else { old } }`)
@@ -324,10 +324,10 @@ if OS.isAtLeast(OSVersion(17)) {
 ```
 
 **Important caveat:** this is a *runtime* check, not a compile-time one.
-It's only safe for choosing between two already-available **values** — two
+It's only safe for choosing between two already-available **values** - two
 `CGFloat`s, two `Color`s, two cases of an enum that exists on every
 deployment target you support. It does not teach the compiler anything about
-API availability. This will not compile, and shouldn't — the compiler can't
+API availability. This will not compile, and shouldn't - the compiler can't
 verify a runtime condition:
 
 ```swift
@@ -359,7 +359,7 @@ import SwiftUI
 
 public extension Backport where Content: View {
     /// Backport of `.scrollClipDisabled(_:)`, added in iOS 17. A no-op
-    /// before that — content stays clipped to the scroll view's bounds,
+    /// before that - content stays clipped to the scroll view's bounds,
     /// which is the pre-17 default everywhere.
     @ViewBuilder
     func scrollClipDisabled(_ disabled: Bool = true) -> some View {
@@ -374,22 +374,22 @@ public extension Backport where Content: View {
 
 The recipe:
 
-1. `extension Backport where Content: View { ... }` — this is what makes
+1. `extension Backport where Content: View { ... }` - this is what makes
    `.backport.yourMethod()` resolve.
-2. `@ViewBuilder func yourMethod(...) -> some View` — mirror the real API's
+2. `@ViewBuilder func yourMethod(...) -> some View` - mirror the real API's
    parameter list as closely as you can, *except* drop any parameter whose
    type doesn't exist pre-availability (see the next point).
 3. Inside, branch on `#available` and call the real API on `content` in the
    `true` branch; return `content` unmodified (or the closest equivalent) in
    the `else`.
 4. **If the real API takes a type that doesn't exist on older OS versions**
-   (like `PresentationDetent`), don't put that type in your signature —
+   (like `PresentationDetent`), don't put that type in your signature -
    define your own compat enum/struct with the same cases, and convert to
    the real type only inside an `@available`-guarded computed property. See
    `Sources/SwiftUIBackportKit/Modifiers/Backport+PresentationDetents.swift` for the
    full pattern.
 5. Add a compile-smoke test in `Tests/SwiftUIBackportKitTests/CompileSmokeTests.swift`
-   that calls the new method — SwiftUI view trees aren't easily inspectable
+   that calls the new method - SwiftUI view trees aren't easily inspectable
    without a hosting environment, so these tests exist to catch signature
    drift, not to assert on pixels.
 
@@ -437,7 +437,7 @@ struct SettingsRow: View {
 
 ## Requirements
 
-iOS 15+. macOS 12+ is also declared in `Package.swift` — not because this is
+iOS 15+. macOS 12+ is also declared in `Package.swift` - not because this is
 a macOS-focused package, but so the package (and its test suite) builds and
 runs via plain `swift build` / `swift test` on a Mac without needing an iOS
 simulator. Every backport checks both platforms' actual minimum OS version
@@ -449,20 +449,20 @@ matches that platform's real API availability.
 ```
 Sources/SwiftUIBackportKit/
   Core/
-    View+Modify.swift              — .modify { }
-    Backport.swift                 — the Backport<Content> namespace + .backport
-    PlatformValue.swift            — OSVersion, OS.isAtLeast, platformValue
+    View+Modify.swift              - .modify { }
+    Backport.swift                 - the Backport<Content> namespace + .backport
+    PlatformValue.swift            - OSVersion, OS.isAtLeast, platformValue
   Modifiers/
-    Backport+OnChange.swift        — .backport.onChange(of:initial:_:)
+    Backport+OnChange.swift        - .backport.onChange(of:initial:_:)
     Backport+ScrollBounceBehavior.swift
     Backport+ScrollClipDisabled.swift
     Backport+PresentationDetents.swift
 Tests/SwiftUIBackportKitTests/
-  PlatformValueTests.swift         — logic tests for OS.isAtLeast / platformValue
-  CompileSmokeTests.swift          — signature/composition tests for every public API
+  PlatformValueTests.swift         - logic tests for OS.isAtLeast / platformValue
+  CompileSmokeTests.swift          - signature/composition tests for every public API
 Example/
-  SwiftUIBackportKitExample.xcodeproj — depends on this package via a local path
-  SwiftUIBackportKitExample/Demos/     — one SwiftUI view per API, see Example/README.md
+  SwiftUIBackportKitExample.xcodeproj - depends on this package via a local path
+  SwiftUIBackportKitExample/Demos/     - one SwiftUI view per API, see Example/README.md
 ```
 
 ## Tests
@@ -474,7 +474,7 @@ swift test
 ## Example app
 
 `Example/` is a runnable iOS app that depends on this package locally and has
-one screen per API — see [`Example/README.md`](Example/README.md) for what's
+one screen per API - see [`Example/README.md`](Example/README.md) for what's
 in it. Open `Example/SwiftUIBackportKitExample.xcodeproj` in Xcode and run it
 on any iOS 15+ simulator or device.
 
